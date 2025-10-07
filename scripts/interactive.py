@@ -12,6 +12,7 @@ import ollama
 from insurance_rag import InsurancePolicyRAG
 from insurance_rag.config import get_settings
 
+
 def check_ollama():
     """Check if Ollama is running"""
     try:
@@ -20,17 +21,20 @@ def check_ollama():
     except:
         return False
 
+
 def main():
     """Run interactive CLI"""
     load_dotenv()
     console = Console()
 
-    console.print(Panel.fit(
-        "🏥 [bold cyan]Insurance Policy RAG System[/bold cyan]\n"
-        "🤖 Powered by Local Ollama (Free & Private)\n"
-        "Interactive Query Interface",
-        border_style="cyan"
-    ))
+    console.print(
+        Panel.fit(
+            "🏥 [bold cyan]Insurance Policy RAG System[/bold cyan]\n"
+            "🤖 Powered by Local Ollama (Free & Private)\n"
+            "Interactive Query Interface",
+            border_style="cyan",
+        )
+    )
 
     # Check Ollama
     if not check_ollama():
@@ -73,7 +77,7 @@ def main():
         try:
             query = Prompt.ask("[bold yellow]Your question[/bold yellow]").strip()
 
-            if query.lower() in ['quit', 'exit', 'q']:
+            if query.lower() in ["quit", "exit", "q"]:
                 console.print("\n[cyan]👋 Goodbye![/cyan]")
                 break
 
@@ -85,7 +89,7 @@ def main():
                 SpinnerColumn(),
                 TextColumn("[progress.description]{task.description}"),
                 console=console,
-                transient=True
+                transient=True,
             ) as progress:
                 progress.add_task(description="Analyzing with Ollama...", total=None)
                 response = rag.query(query)
@@ -94,7 +98,7 @@ def main():
             status_color = {
                 "✅ Covered": "green",
                 "❌ Not Covered": "red",
-                "⚠️ Ambiguous": "yellow"
+                "⚠️ Ambiguous": "yellow",
             }.get(response.status.value, "white")
 
             console.print(f"\n[bold {status_color}]{response.status.value}[/bold {status_color}]")

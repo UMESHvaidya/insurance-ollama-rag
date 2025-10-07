@@ -10,6 +10,7 @@ from .vectorstore import VectorStoreManager
 from .retriever import DocumentRetriever
 from .llm_analyzer import CoverageAnalyzer
 
+
 class InsurancePolicyRAG:
     """Main RAG system for insurance policy analysis with local Ollama"""
 
@@ -24,18 +25,15 @@ class InsurancePolicyRAG:
 
         # Initialize components
         self.document_loader = PolicyDocumentLoader(
-            chunk_size=self.settings.chunk_size,
-            chunk_overlap=self.settings.chunk_overlap
+            chunk_size=self.settings.chunk_size, chunk_overlap=self.settings.chunk_overlap
         )
 
-        self.vectorstore_manager = VectorStoreManager(
-            embedding_model=self.settings.embedding_model
-        )
+        self.vectorstore_manager = VectorStoreManager(embedding_model=self.settings.embedding_model)
 
         self.analyzer = CoverageAnalyzer(
             model_name=self.settings.ollama_model,
             base_url=self.settings.ollama_base_url,
-            temperature=self.settings.llm_temperature
+            temperature=self.settings.llm_temperature,
         )
 
         self.retriever: Optional[DocumentRetriever] = None
@@ -62,8 +60,7 @@ class InsurancePolicyRAG:
         # Initialize retriever
         vectorstore = self.vectorstore_manager.get_vectorstore()
         self.retriever = DocumentRetriever(
-            vectorstore=vectorstore,
-            retrieval_k=self.settings.retrieval_k
+            vectorstore=vectorstore, retrieval_k=self.settings.retrieval_k
         )
 
         self.document_loaded = True
@@ -88,10 +85,7 @@ class InsurancePolicyRAG:
         documents = self.retriever.retrieve(query)
 
         # Format context with length limit for smaller models
-        context = self.retriever.format_context(
-            documents,
-            max_length=self.settings.context_length
-        )
+        context = self.retriever.format_context(documents, max_length=self.settings.context_length)
 
         # Analyze coverage using Ollama
         print("🤖 Querying local Ollama model...")

@@ -7,14 +7,17 @@ from dotenv import load_dotenv
 from insurance_rag import InsurancePolicyRAG
 from insurance_rag.config import get_settings
 
+
 def check_ollama():
     """Check if Ollama is running"""
     import ollama
+
     try:
         ollama.list()
         return True
     except:
         return False
+
 
 def main():
     """Run example queries on a policy document"""
@@ -76,7 +79,7 @@ def main():
         "Are pre-existing conditions covered?",
         "Is ambulance service included?",
         "Is piles surgery covered?",
-        "Is Hair transplant covered?"
+        "Is Hair transplant covered?",
     ]
 
     print("📋 Running example queries...")
@@ -99,6 +102,7 @@ def main():
     print("   For interactive mode, run: poetry run python scripts/interactive.py")
 
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

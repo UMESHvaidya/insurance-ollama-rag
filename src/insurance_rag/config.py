@@ -6,6 +6,7 @@ from typing import Optional
 from pydantic_settings import BaseSettings
 from pydantic import Field
 
+
 class Settings(BaseSettings):
     """Application settings loaded from environment variables"""
 
@@ -14,10 +15,7 @@ class Settings(BaseSettings):
     ollama_model: str = Field(default="gemma2:2b", alias="OLLAMA_MODEL")
 
     # Embedding Model (using sentence-transformers for local embeddings)
-    embedding_model: str = Field(
-        default="all-MiniLM-L6-v2",
-        alias="EMBEDDING_MODEL"
-    )
+    embedding_model: str = Field(default="all-MiniLM-L6-v2", alias="EMBEDDING_MODEL")
 
     # RAG Parameters
     chunk_size: int = Field(default=800, alias="CHUNK_SIZE")  # Smaller for gemma2:2b
@@ -37,9 +35,11 @@ class Settings(BaseSettings):
         env_file = ".env"
         case_sensitive = False
 
+
 # Global settings instance
 
 _settings: Optional[Settings] = None
+
 
 def get_settings() -> Settings:
     """Get or create settings instance"""

@@ -6,6 +6,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.schema import Document
 
+
 class PolicyDocumentLoader:
     """Loads and processes insurance policy PDF documents"""
 
@@ -24,7 +25,7 @@ class PolicyDocumentLoader:
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap,
             length_function=len,
-            separators=["\n\n", "\n", ". ", " ", ""]
+            separators=["\n\n", "\n", ". ", " ", ""],
         )
 
     def load_pdf(self, pdf_path: str | Path) -> List[Document]:

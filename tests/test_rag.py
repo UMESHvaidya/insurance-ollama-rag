@@ -8,6 +8,7 @@ from insurance_rag.models import CoverageStatus, CoverageResponse, ConfidenceLev
 from insurance_rag.document_loader import PolicyDocumentLoader
 from insurance_rag.llm_analyzer import CoverageAnalyzer
 
+
 class TestPolicyDocumentLoader:
     """Tests for document loader"""
 
@@ -26,10 +27,11 @@ class TestPolicyDocumentLoader:
         with pytest.raises(ValueError):
             loader.load_pdf("test.txt")
 
+
 class TestCoverageAnalyzer:
     """Tests for coverage analyzer"""
 
-    @patch('insurance_rag.llm_analyzer.ollama')
+    @patch("insurance_rag.llm_analyzer.ollama")
     def test_parse_covered_response(self, mock_ollama):
         # Mock ollama.list() for connection check
         mock_ollama.list.return_value = []
@@ -50,7 +52,7 @@ CONFIDENCE: High
         assert result.confidence == ConfidenceLevel.HIGH
         assert "explicitly listed" in result.explanation
 
-    @patch('insurance_rag.llm_analyzer.ollama')
+    @patch("insurance_rag.llm_analyzer.ollama")
     def test_parse_not_covered_response(self, mock_ollama):
         mock_ollama.list.return_value = []
 
@@ -69,13 +71,14 @@ CONFIDENCE: High
         assert result.status == CoverageStatus.NOT_COVERED
         assert result.confidence == ConfidenceLevel.HIGH
 
-    @patch('insurance_rag.llm_analyzer.ollama')
+    @patch("insurance_rag.llm_analyzer.ollama")
     def test_connection_error(self, mock_ollama):
         # Simulate Ollama not running
         mock_ollama.list.side_effect = Exception("Connection refused")
 
         with pytest.raises(ConnectionError):
             CoverageAnalyzer(model_name="gemma2:2b")
+
 
 class TestCoverageResponse:
     """Tests for coverage response model"""
@@ -86,7 +89,7 @@ class TestCoverageResponse:
             explanation="Test explanation",
             reference="Page 1",
             confidence=ConfidenceLevel.HIGH,
-            query="Test query"
+            query="Test query",
         )
 
         result = response.to_dict()
@@ -101,7 +104,7 @@ class TestCoverageResponse:
             explanation="Unclear from policy",
             reference="Multiple sections",
             confidence=ConfidenceLevel.MEDIUM,
-            query="Test query"
+            query="Test query",
         )
 
         output = str(response)
@@ -109,6 +112,7 @@ class TestCoverageResponse:
         assert "⚠️ Ambiguous" in output
         assert "Unclear from policy" in output
         assert "Multiple sections" in output
+
 
 class TestConfig:
     """Test configuration"""

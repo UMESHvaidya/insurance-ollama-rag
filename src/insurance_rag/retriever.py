@@ -3,6 +3,7 @@
 from typing import List
 from langchain.schema import Document
 
+
 class DocumentRetriever:
     """Retrieves relevant documents for queries"""
 
@@ -19,8 +20,7 @@ class DocumentRetriever:
 
         # Create base retriever
         self.base_retriever = vectorstore.as_retriever(
-            search_type="similarity",
-            search_kwargs={"k": retrieval_k}
+            search_type="similarity", search_kwargs={"k": retrieval_k}
         )
 
     def retrieve(self, query: str) -> List[Document]:
@@ -51,7 +51,7 @@ class DocumentRetriever:
         total_length = 0
 
         for doc in documents:
-            page_num = doc.metadata.get('page', 'unknown')
+            page_num = doc.metadata.get("page", "unknown")
             content = doc.page_content
 
             # Build context part

@@ -4,21 +4,27 @@ from enum import Enum
 from dataclasses import dataclass
 from typing import Optional
 
+
 class CoverageStatus(str, Enum):
     """Enumeration of possible coverage statuses"""
+
     COVERED = "✅ Covered"
     NOT_COVERED = "❌ Not Covered"
     AMBIGUOUS = "⚠️ Ambiguous"
 
+
 class ConfidenceLevel(str, Enum):
     """Confidence level of the analysis"""
+
     HIGH = "High"
     MEDIUM = "Medium"
     LOW = "Low"
 
+
 @dataclass
 class CoverageResponse:
     """Structured response for insurance coverage queries"""
+
     status: CoverageStatus
     explanation: str
     reference: str

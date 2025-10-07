@@ -5,6 +5,7 @@ from langchain.schema import Document
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
+
 class VectorStoreManager:
     """Manages vector database for document embeddings using local embeddings"""
 
@@ -20,14 +21,16 @@ class VectorStoreManager:
         # Use local HuggingFace embeddings (free and offline)
         self.embeddings = HuggingFaceEmbeddings(
             model_name=embedding_model,
-            model_kwargs={'device': 'cpu'},  # Use 'cuda' if GPU available
-            encode_kwargs={'normalize_embeddings': True}
+            model_kwargs={"device": "cpu"},  # Use 'cuda' if GPU available
+            encode_kwargs={"normalize_embeddings": True},
         )
 
         self.vectorstore: Optional[Chroma] = None
         print("✓ Embedding model loaded")
 
-    def create_vectorstore(self, chunks: List[Document], collection_name: str = "insurance_policy") -> None:
+    def create_vectorstore(
+        self, chunks: List[Document], collection_name: str = "insurance_policy"
+    ) -> None:
         """
         Create vector store from document chunks
 
@@ -36,9 +39,7 @@ class VectorStoreManager:
             collection_name: Name for the collection
         """
         self.vectorstore = Chroma.from_documents(
-            documents=chunks,
-            embedding=self.embeddings,
-            collection_name=collection_name
+            documents=chunks, embedding=self.embeddings, collection_name=collection_name
         )
 
     def get_vectorstore(self) -> Chroma:

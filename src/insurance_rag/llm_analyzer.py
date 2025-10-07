@@ -6,6 +6,7 @@ import ollama
 
 from .models import CoverageResponse, CoverageStatus, ConfidenceLevel
 
+
 class CoverageAnalyzer:
     """Analyzes insurance coverage using local Ollama LLM"""
 
@@ -26,8 +27,12 @@ CONFIDENCE: [High/Medium/Low]
 
 Be precise and cite specific policy language when available."""
 
-    def __init__(self, model_name: str = "gemma2:2b", base_url: str = "http://localhost:11434",
-                 temperature: float = 0.1):
+    def __init__(
+        self,
+        model_name: str = "gemma2:2b",
+        base_url: str = "http://localhost:11434",
+        temperature: float = 0.1,
+    ):
         """
         Initialize coverage analyzer with Ollama
 
@@ -72,10 +77,10 @@ Be precise and cite specific policy language when available."""
                 options={
                     "temperature": self.temperature,
                     "num_predict": 300,  # Limit response length
-                }
+                },
             )
 
-            result_text = response['response']
+            result_text = response["response"]
 
         except Exception as e:
             # Fallback response if Ollama fails
@@ -103,23 +108,27 @@ CONFIDENCE: Low"""
             CoverageResponse object
         """
         # Extract fields using regex
-        status_match = re.search(r'STATUS:\s*(.*?)(?:\n|$)', llm_output, re.IGNORECASE)
+        status_match = re.search(r"STATUS:\s*(.*?)(?:\n|$)", llm_output, re.IGNORECASE)
         explanation_match = re.search(
-            r'EXPLANATION:\s*(.*?)(?=REFERENCE:|CONFIDENCE:|$)',
+            r"EXPLANATION:\s*(.*?)(?=REFERENCE:|CONFIDENCE:|$)",
             llm_output,
-            re.IGNORECASE | re.DOTALL
+            re.IGNORECASE | re.DOTALL,
         )
         reference_match = re.search(
-            r'REFERENCE:\s*(.*?)(?=CONFIDENCE:|$)',
-            llm_output,
-            re.IGNORECASE | re.DOTALL
+            r"REFERENCE:\s*(.*?)(?=CONFIDENCE:|$)", llm_output, re.IGNORECASE | re.DOTALL
         )
-        confidence_match = re.search(r'CONFIDENCE:\s*(.*?)(?:\n|$)', llm_output, re.IGNORECASE)
+        confidence_match = re.search(r"CONFIDENCE:\s*(.*?)(?:\n|$)", llm_output, re.IGNORECASE)
 
         # Extract and clean values
         status_str = status_match.group(1).strip() if status_match else "Ambiguous"
-        explanation = explanation_match.group(1).strip() if explanation_match else "Unable to determine from policy."
-        reference = reference_match.group(1).strip() if reference_match else "No specific reference found."
+        explanation = (
+            explanation_match.group(1).strip()
+            if explanation_match
+            else "Unable to determine from policy."
+        )
+        reference = (
+            reference_match.group(1).strip() if reference_match else "No specific reference found."
+        )
         confidence_str = confidence_match.group(1).strip() if confidence_match else "Medium"
 
         # Normalize status
@@ -145,5 +154,5 @@ CONFIDENCE: Low"""
             explanation=explanation.strip(),
             reference=reference.strip(),
             confidence=confidence,
-            query=query
+            query=query,
         )
