@@ -85,12 +85,29 @@ cp /path/to/your/policy.pdf data/insurance_policy.pdf
 ### Step 5: Run!
 
 ```bash
-# Run example queries
-poetry run python main.py
+# Run example queries (CLI mode)
+poetry run python main.py cli
 
 # Or use interactive mode
 poetry run python scripts/interactive.py
+
+# Run the web application
+poetry run python main.py web
 ```
+
+Then, open your web browser and navigate to `http://127.0.0.1:5001`.
+
+## 🌐 Web Interface
+
+A user-friendly web interface has been added to simplify interaction with the RAG system. You can upload your insurance policy PDF, enter your query, and get instant analysis results directly in your browser.
+
+**Features:**
+- Easy PDF upload
+- Simple query input
+- Clear display of coverage status, explanation, reference, and confidence
+- Loading indicator for ongoing analysis
+
+![Insurance Policy Analyzer Web UI](/data/screenshots/sample_output.png)
 
 ## 📁 Project Structure
 
@@ -103,6 +120,8 @@ insurance-policy-rag/
 ├── .gitignore                 # Git ignore
 ├── data/                      # Policy documents
 │   └── insurance_policy.pdf
+│   └── screenshots/           # Screenshots for documentation
+│       └── sample_output.png
 ├── src/insurance_rag/         # Main package
 │   ├── __init__.py           # Package exports
 │   ├── config.py             # Settings (Ollama config)
@@ -111,7 +130,15 @@ insurance-policy-rag/
 │   ├── vectorstore.py        # Vector DB (local embeddings)
 │   ├── retriever.py          # Document retrieval
 │   ├── llm_analyzer.py       # Ollama integration
-│   └── rag_pipeline.py       # Main orchestrator
+│   ├── rag_pipeline.py       # Main orchestrator
+│   └── app/                  # Flask web application
+│       ├── __init__.py
+│       ├── app.py            # Flask application entry point
+│       ├── static/           # Static assets (CSS, JS)
+│       │   ├── style.css
+│       │   └── script.js
+│       └── templates/        # HTML templates
+│           └── index.html
 ├── scripts/
 │   └── interactive.py        # Interactive CLI
 ├── tests/
@@ -303,6 +330,16 @@ export PATH="$HOME/.local/bin:$PATH"
 ~/.local/bin/poetry install
 ```
 
+### Issue: "Flask module not found" when running web app
+
+If you encounter a `ModuleNotFoundError: No module named 'flask'` when trying to run the web application, it might be due to issues with Poetry's dependency management. You can try to manually install Flask within your Poetry environment:
+
+```bash
+poetry run pip install flask
+```
+
+Then, try running the web application again.
+
 ## 🚀 Performance Tips
 
 1. **GPU Acceleration**: If you have NVIDIA GPU:
@@ -418,7 +455,7 @@ MIT License - See LICENSE file for details
 
 Possible enhancements:
 
-- [ ] Web UI with Streamlit/Gradio
+- [X] Web UI (Flask)
 - [ ] Multi-document comparison
 - [ ] Export reports to PDF
 - [ ] Document question history

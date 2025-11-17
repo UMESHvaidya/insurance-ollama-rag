@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Policy Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Insurance Policy Analyzer</h1>
+        <p>Upload an insurance policy PDF and ask a question to analyze coverage.</p>
+
+        <form id="query-form">
+            <div class="form-group">
+                <label for="file">Policy Document (PDF)</label>
+                <input type="file" id="file" name="file" accept=".pdf" required>
+            </div>
+            <div class="form-group">
+                <label for="query">Question</label>
+                <input type="text" id="query" name="query" placeholder="e.g., 'Are floods covered?'" required>
+            </div>
+            <button type="submit" id="submit-btn">Analyze</button>
+        </form>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Analyzing... this may take a moment.</p>
+        </div>
+
+        <div id="results" class="hidden">
+            <h2>Analysis Results</h2>
+            <div id="results-content"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

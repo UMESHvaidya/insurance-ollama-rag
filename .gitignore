@@ -45,6 +45,8 @@ poetry.lock
 data/*.pdf
 data/*.txt
 !data/.gitkeep
+data/screenshots/
+data/uploads/
 
 # Chroma DB
 chroma*db/

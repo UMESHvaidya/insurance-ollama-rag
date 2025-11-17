@@ -19,7 +19,11 @@ def check_ollama():
         return False
 
 
-def main():
+import argparse
+from insurance_rag.app.app import main as run_web_app
+
+
+def run_cli():
     """Run example queries on a policy document"""
     # Load environment variables
     load_dotenv()
@@ -102,6 +106,26 @@ def main():
     print("   For interactive mode, run: poetry run python scripts/interactive.py")
 
     return 0
+
+
+def main():
+    """Main entry point"""
+    parser = argparse.ArgumentParser(description="Insurance Policy RAG System")
+    parser.add_argument(
+        "mode",
+        nargs="?",
+        default="cli",
+        choices=["cli", "web"],
+        help="Mode to run the application in (default: cli)",
+    )
+    args = parser.parse_args()
+
+    if args.mode == "web":
+        print("🚀 Starting web application...")
+        run_web_app()
+        return 0
+    else:
+        return run_cli()
 
 
 if __name__ == "__main__":
