@@ -66,12 +66,13 @@ class InsurancePolicyRAG:
         self.document_loaded = True
         print("✅ Policy document indexed successfully!\n")
 
-    def query(self, query: str) -> CoverageResponse:
+    def query(self, query: str, history: list[str] = None) -> CoverageResponse:
         """
         Query the insurance policy
 
         Args:
             query: Natural language question
+            history: Optional list of previous Q&A strings
 
         Returns:
             CoverageResponse object
@@ -89,6 +90,6 @@ class InsurancePolicyRAG:
 
         # Analyze coverage using Ollama
         print("🤖 Querying local Ollama model...")
-        response = self.analyzer.analyze(query, context)
+        response = self.analyzer.analyze(query, context, history=history)
 
         return response

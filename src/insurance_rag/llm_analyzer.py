@@ -15,6 +15,9 @@ class CoverageAnalyzer:
 POLICY EXCERPTS:
 {context}
 
+CHAT HISTORY:
+{history}
+
 USER QUERY: {question}
 
 TASK: Determine if the item is Covered, Not Covered, or Ambiguous.
@@ -55,19 +58,27 @@ Be precise and cite specific policy language when available."""
                 f"Make sure Ollama is running: 'ollama serve'. Error: {e}"
             )
 
-    def analyze(self, query: str, context: str) -> CoverageResponse:
+    def analyze(self, query: str, context: str, history: list[str] = None) -> CoverageResponse:
         """
         Analyze coverage for a query using Ollama
 
         Args:
             query: User query
             context: Retrieved policy context
+            history: Optional list of previous Q&A strings
 
         Returns:
             CoverageResponse object
         """
+        # Format history
+        history_text = "\n".join(history) if history else "No previous history."
+
         # Build prompt
-        prompt = self.PROMPT_TEMPLATE.format(context=context, question=query)
+        prompt = self.PROMPT_TEMPLATE.format(
+            context=context,
+            history=history_text,
+            question=query
+        )
 
         try:
             # Call Ollama

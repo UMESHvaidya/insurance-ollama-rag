@@ -8,6 +8,7 @@ A **100% Free & Local** Retrieval-Augmented Generation (RAG) system for analyzin
 - 🔒 **Privacy First**: All processing happens locally on your machine
 - 📄 **PDF Processing**: Intelligent document loading with context preservation
 - 🔍 **Smart Retrieval**: Vector-based similarity search with ChromaDB
+- 🧠 **Context Aware**: Remembers conversation history for follow-up questions
 - 🤖 **Local LLM**: Powered by Ollama (gemma2:2b, llama2, mistral, etc.)
 - 🎨 **Beautiful CLI**: Rich terminal interface with colors and spinners
 - ⚙️ **Configurable**: Easy configuration via .env file
@@ -239,6 +240,7 @@ data = response.to_dict()
 ### Interactive Mode Features
 
 - 🎨 Colored output based on coverage status
+- 🧠 Remembers previous questions for natural conversation
 - ⚡ Loading spinners for better UX
 - 💬 Natural conversation flow
 - 🔄 Keep asking multiple questions

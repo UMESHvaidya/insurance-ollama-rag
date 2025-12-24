@@ -71,7 +71,10 @@ def main():
 
     # Interactive loop
     console.print("\n[bold green]Ready![/bold green] Ask questions about your policy")
-    console.print("[dim](type 'quit', 'exit', or 'q' to exit)[/dim]\n")
+    console.print("[dim](type 'quit', 'exit', or 'q' to exit)[/dim]")
+    console.print("[dim](type 'clear' or 'c' to clear conversation history)[/dim]\n")
+
+    chat_history = []
 
     while True:
         try:
@@ -80,6 +83,11 @@ def main():
             if query.lower() in ["quit", "exit", "q"]:
                 console.print("\n[cyan]👋 Goodbye![/cyan]")
                 break
+
+            if query.lower() in ["clear", "c"]:
+                chat_history = []
+                console.print("\n[cyan]🧹 Conversation history cleared![/cyan]\n")
+                continue
 
             if not query:
                 continue
@@ -92,7 +100,13 @@ def main():
                 transient=True,
             ) as progress:
                 progress.add_task(description="Analyzing with Ollama...", total=None)
-                response = rag.query(query)
+                response = rag.query(query, history=chat_history)
+
+            # Update history (keep last 5 turns)
+            chat_history.append(f"User: {query}")
+            chat_history.append(f"Assistant: {response.explanation}")
+            if len(chat_history) > 10:  # 5 turns * 2 items per turn
+                chat_history = chat_history[-10:]
 
             # Color-code status
             status_color = {
